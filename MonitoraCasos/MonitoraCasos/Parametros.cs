@@ -1,6 +1,7 @@
-﻿using System;
-using System.Threading;
+﻿using static System.Console;
+using static System.Convert;
 using static System.Int32;
+using static System.Threading.Thread;
 
 namespace MonitoraCasos
 {
@@ -8,47 +9,52 @@ namespace MonitoraCasos
     {
         public static char PessoaSaudavel { get; set; }
         public static char PessoaInfectada { get; set; }
+        public static int TempoEmSegundos { get; set; }
 
         private static string PerguntaEstado()
         {
-            Console.WriteLine("Quantos estados deseja monitorar?");
-            return Console.ReadLine();
+            WriteLine("Quantos estados deseja monitorar?");
+            return ReadLine();
         }
+
         private static string PerguntaPessoas()
         {
-            Console.WriteLine("Quantas pessoas deseja monitorar?");
-            return Console.ReadLine();
+            WriteLine("Quantas pessoas deseja monitorar?");
+            return ReadLine();
         }
 
-        private static bool IsNumber(string a) => TryParse(a, out _);
+        private static bool VerificaResposta(string a) => TryParse(a, out _);
 
-        private static void Error(this string a)
+        private static void IfNecessaryPrintError(string a, out int b)
         {
-            if (!IsNumber(a))
+            while (!VerificaResposta(a))
             {
-                Console.WriteLine("Digite um número.");
-                Thread.Sleep(1000);
+                WriteLine("Digite um número.");
+                a = PerguntaPessoas();
+                Sleep(1000);
             }
+            b = ToInt32(a);
         }
 
-        private static int QuestionarioPessoas()
+        private static int PromptUserSecond()
         {
             var respostaPessoas = PerguntaPessoas();
+            IfNecessaryPrintError(respostaPessoas, out var answer);
+            return answer;
+        }
 
-            while (!IsNumber(respostaPessoas))
+        public static (int, int) PromptUser()
+        {
+            int answerEstados;
+            do
             {
-                Error(respostaPessoas);
-                respostaPessoas = PerguntaPessoas();
-            }
-            return Parse(respostaPessoas);
+                var respostaEstados = PerguntaEstado();
+                IfNecessaryPrintError(respostaEstados, out answerEstados);
 
-            var respostaEstados = PerguntaEstado();
-            while (!IsNumber(respostaEstados))
-            {
-                Error(respostaEstados);
-                respostaEstados = PerguntaPessoas();
-            }
-            var numeroEstados = Parse(respostaEstados);
+                if (answerEstados > 27)
+                    WriteLine("No Brasil temos somente 27 estados.");
+            } while (answerEstados > 27);
+            return (answerEstados, PromptUserSecond());
         }
     }
 }

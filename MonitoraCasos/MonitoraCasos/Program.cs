@@ -10,6 +10,8 @@ namespace MonitoraCasos
     {
         static void Main(string[] args)
         {
+            Parametros.PromptUser();
+            Console.ReadLine();
         }
     }
 }
