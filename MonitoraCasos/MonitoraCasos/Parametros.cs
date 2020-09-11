@@ -1,4 +1,5 @@
-﻿using static System.Console;
+﻿using System;
+using static System.Console;
 using static System.Convert;
 using static System.Int32;
 using static System.Threading.Thread;
@@ -7,6 +8,7 @@ namespace MonitoraCasos
 {
     public static class Parametros
     {
+
         public static char PessoaSaudavel { get; set; }
         public static char PessoaInfectada { get; set; }
         public static int TempoEmSegundos { get; set; }
@@ -54,6 +56,8 @@ namespace MonitoraCasos
                 if (answerEstados > 27)
                     WriteLine("No Brasil temos somente 27 estados.");
             } while (answerEstados > 27);
+
+            Clear();
             return (answerEstados, PromptUserSecond());
         }
     }

@@ -5,14 +5,18 @@ namespace MonitoraCasos
 {
     public class Calculo : Monitoramento
     {
-        public (int, int) Infectados()
+        public (int, int) LocalizaInfectado(int qtdEstados, int qtdPessoas)
         {
-            var monitoras = new Monitoramento();
 
 
-            var randomNumber = new Random().Next(QtdCidades * QtdEstados);
+            QtdEstados = qtdEstados;
+            QtdPessoas = qtdPessoas;
 
-            return (1, 1);
+            var randomNumberStates = new Random().Next(QtdEstados);
+            var randomNumberPeople = new Random().Next(QtdPessoas);
+            
+
+            return (randomNumberStates, randomNumberPeople);
         }
     }
 }
